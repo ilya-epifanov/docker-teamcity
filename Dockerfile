@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:sid
 
 MAINTAINER Ilya Epifanov <elijah.epifanov@gmail.com>
 
@@ -17,7 +17,7 @@ RUN groupadd -r teamcity \
  && useradd -r -d /var/lib/teamcity -m -g teamcity teamcity
 
 RUN apt-get update \
- && apt-get install -y openjdk-7-jre-headless --no-install-recommends \
+ && apt-get install -y openjdk-8-jre-headless --no-install-recommends \
  && dpkg-reconfigure ca-certificates-java \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -27,8 +27,8 @@ ENV TEAMCITY_VERSION=9.0.4
 RUN curl -o /tmp/teamcity.tar.gz -SL "http://download.jetbrains.com/teamcity/TeamCity-${TEAMCITY_VERSION}.tar.gz" \
  && tar xf /tmp/teamcity.tar.gz --strip-components 1 -C /var/lib/teamcity \
  && rm /tmp/teamcity.tar.gz \
- && mkdir -p /var/lib/teamcity/data/lib/jdbc /var/lib/teamcity/logs \
- && curl -o /var/lib/teamcity/data/lib/jdbc/postgresql.jar -SL "https://jdbc.postgresql.org/download/postgresql-9.4-1200.jdbc41.jar" \
+ && mkdir -p /var/lib/teamcity/data-lib/lib/jdbc /var/lib/teamcity/logs \
+ && curl -o /var/lib/teamcity/data-lib/lib/jdbc/postgresql.jar -SL "https://jdbc.postgresql.org/download/postgresql-9.4-1200.jdbc41.jar" \
  && chown -R teamcity /var/lib/teamcity
 
 VOLUME /var/lib/teamcity/conf /var/lib/teamcity/logs
@@ -36,7 +36,8 @@ VOLUME /var/lib/teamcity/conf /var/lib/teamcity/logs
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-ENV TEAMCITY_DATA_PATH="/var/lib/teamcity/data" TEAMCITY_SERVER_OPTS=""
+ENV TEAMCITY_DATA_PATH="/var/lib/teamcity/data"
+ENV TEAMCITY_SERVER_OPTS=""
 ENV TEAMCITY_SERVER_MEM_OPTS="-mx1g -XX:+UseG1GC"
 
 EXPOSE 8111
