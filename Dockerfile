@@ -22,7 +22,7 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ENV TEAMCITY_VERSION=9.0.5
+ENV TEAMCITY_VERSION=9.1.1
 
 RUN curl -o /tmp/teamcity.tar.gz -SL "http://download.jetbrains.com/teamcity/TeamCity-${TEAMCITY_VERSION}.tar.gz" \
  && tar xf /tmp/teamcity.tar.gz --strip-components 1 -C /var/lib/teamcity \
