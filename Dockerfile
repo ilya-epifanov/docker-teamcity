@@ -22,7 +22,7 @@ RUN apt-get update \
 RUN groupadd -r teamcity \
  && useradd -r -d /var/lib/teamcity -m -g teamcity teamcity
 
-ENV TEAMCITY_VERSION=9.1.3
+ENV TEAMCITY_VERSION=9.1.4
 
 RUN curl -o /tmp/teamcity.tar.gz -SL "http://download.jetbrains.com/teamcity/TeamCity-${TEAMCITY_VERSION}.tar.gz" \
  && tar xf /tmp/teamcity.tar.gz --strip-components 1 -C /var/lib/teamcity \
